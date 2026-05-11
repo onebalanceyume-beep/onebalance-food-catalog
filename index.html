@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#FFF8FB" />
+  <meta name="description" content="ONE BALANCEのお客様向け、ダイエット中に選びやすい食材を一覧で見られる食事図鑑。" />
+  <title>ONE BALANCE 食事図鑑</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero" id="top">
+      <div class="hero__ornament hero__ornament--left" aria-hidden="true"></div>
+      <div class="hero__ornament hero__ornament--right" aria-hidden="true"></div>
+      <p class="hero__eyebrow">ONE BALANCE METHOD</p>
+      <h1 class="hero__title">ONE BALANCE 食事図鑑</h1>
+      <p class="hero__subtitle">あなたの体を整える、選ばれた食材たち</p>
+      <div class="hero__note">
+        <span class="hero__note-dot" aria-hidden="true"></span>
+        スーパー・コンビニで「今日これ買おう」とすぐ決めやすい、やさしい食材カタログ
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="tabs-section" aria-label="カテゴリ切り替え">
+        <div class="tabs" id="categoryTabs" role="tablist" aria-label="食材カテゴリ">
+          <button class="tab is-active" type="button" role="tab" aria-selected="true" data-filter="ALL">すべて</button>
+          <button class="tab" type="button" role="tab" aria-selected="false" data-filter="P">タンパク質(P)</button>
+          <button class="tab" type="button" role="tab" aria-selected="false" data-filter="F">脂質(F)</button>
+          <button class="tab" type="button" role="tab" aria-selected="false" data-filter="C">炭水化物(C)</button>
+        </div>
+      </section>
+
+      <section class="overview" aria-label="一覧概要">
+        <div class="overview__card">
+          <p class="overview__label">表示カテゴリ</p>
+          <p class="overview__value" id="currentCategoryLabel">すべて</p>
+        </div>
+        <div class="overview__card">
+          <p class="overview__label">表示件数</p>
+          <p class="overview__value"><span id="foodCount">0</span> 品目</p>
+        </div>
+      </section>
+
+      <section aria-label="食材一覧">
+        <div class="card-grid" id="foodGrid"></div>
+        <div class="empty-state hidden" id="emptyState" aria-live="polite">
+          <p class="empty-state__title">このカテゴリは準備中です</p>
+          <p class="empty-state__text">「すべて」または別カテゴリを選ぶと、対象の食材が表示されます。</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p class="footer__title">ONE BALANCE METHOD</p>
+      <p class="footer__subtitle">ONE-TRE 監修</p>
+    </footer>
+  </div>
+
+  <script>
+    const foodData = [
+      {id:"P001", category:"P", name:"鶏むね肉", serving:"手のひら1枚", servingG:100, p:23, f:1.5, c:0, calorie:105},
+      {id:"P002", category:"P", name:"鶏もも肉(皮なし)", serving:"手のひら1枚", servingG:100, p:19, f:5, c:0, calorie:127},
+      {id:"P003", category:"P", name:"ゆで卵", serving:"1個", servingG:50, p:6, f:5, c:0.3, calorie:76},
+      {id:"P004", category:"P", name:"焼き魚(鮭・サバ等)", serving:"1切れ", servingG:80, p:18, f:6, c:0, calorie:130},
+      {id:"P005", category:"P", name:"豆腐", serving:"1/2丁", servingG:150, p:10, f:4.5, c:2.4, calorie:84},
+      {id:"P006", category:"P", name:"納豆", serving:"1パック", servingG:50, p:8, f:5, c:6.1, calorie:100},
+      {id:"P007", category:"P", name:"ツナ缶(ノンオイル)", serving:"1缶", servingG:70, p:12, f:0.5, c:0.1, calorie:56},
+      {id:"P008", category:"P", name:"プレーンヨーグルト", serving:"カップ1杯", servingG:100, p:10, f:0.2, c:5.5, calorie:60},
+      {id:"P009", category:"P", name:"枝豆", serving:"片手1掴み", servingG:50, p:6, f:3, c:4, calorie:67},
+      {id:"P010", category:"P", name:"チーズ", serving:"1切れ", servingG:20, p:5, f:5, c:0.3, calorie:70},
+      {id:"P011", category:"P", name:"プロテインスープ", serving:"1杯", servingG:30, p:20, f:1, c:2, calorie:100},
+      {id:"P012", category:"P", name:"豚ヒレ肉", serving:"手のひら1枚", servingG:100, p:22, f:4, c:0, calorie:130},
+      {id:"P013", category:"P", name:"牛もも肉(赤身)", serving:"手のひら1枚", servingG:100, p:21, f:5, c:0, calorie:140},
+      {id:"P014", category:"P", name:"白身魚(タラ等)", serving:"1切れ", servingG:80, p:14, f:0.5, c:0, calorie:60},
+      {id:"P015", category:"P", name:"イカ・タコ", serving:"片手1掴み", servingG:80, p:14, f:0.5, c:0.1, calorie:65},
+      {id:"F001", category:"F", name:"オリーブオイル", serving:"大さじ1", servingG:12, p:0, f:12, c:0, calorie:110},
+      {id:"F002", category:"F", name:"味噌", serving:"小さじ1", servingG:6, p:0.8, f:0.4, c:1.4, calorie:12},
+      {id:"F003", category:"F", name:"バター", serving:"小さじ1", servingG:5, p:0, f:4, c:0, calorie:36},
+      {id:"F004", category:"F", name:"ごま油", serving:"小さじ1", servingG:4, p:0, f:4, c:0, calorie:36},
+      {id:"F005", category:"F", name:"ナッツ類(無塩)", serving:"片手1掴み", servingG:20, p:4, f:11, c:4, calorie:130},
+      {id:"F006", category:"F", name:"アボカド", serving:"1/2個", servingG:80, p:1.5, f:14, c:5, calorie:145},
+      {id:"F007", category:"F", name:"卵黄", serving:"1個分", servingG:18, p:2.5, f:5, c:0.1, calorie:60},
+      {id:"F008", category:"F", name:"MCTオイル", serving:"小さじ1", servingG:4, p:0, f:4, c:0, calorie:36},
+      {id:"F009", category:"F", name:"アマニ油", serving:"小さじ1", servingG:4, p:0, f:4, c:0, calorie:36},
+      {id:"F010", category:"F", name:"白ごま", serving:"大さじ1", servingG:9, p:1.8, f:4.9, c:1.7, calorie:55},
+      {id:"C001", category:"C", name:"玄米", serving:"茶碗1杯", servingG:150, p:4.2, f:1.5, c:53, calorie:248},
+      {id:"C002", category:"C", name:"白米", serving:"茶碗1杯", servingG:150, p:3.8, f:0.5, c:55, calorie:252},
+      {id:"C003", category:"C", name:"さつまいも", serving:"1本", servingG:200, p:2.4, f:0.4, c:60, calorie:264},
+      {id:"C004", category:"C", name:"オートミール", serving:"茶碗1杯", servingG:30, p:4, f:1.7, c:20, calorie:114},
+      {id:"C005", category:"C", name:"バナナ", serving:"1本", servingG:100, p:1.1, f:0.2, c:22.5, calorie:86},
+      {id:"C006", category:"C", name:"うどん", serving:"1玉", servingG:250, p:6.5, f:1, c:52, calorie:252},
+      {id:"C007", category:"C", name:"そば", serving:"1玉", servingG:170, p:8, f:1.7, c:48, calorie:224},
+      {id:"C008", category:"C", name:"パスタ", serving:"1食分", servingG:80, p:11, f:1.5, c:60, calorie:296}
+    ];
+
+    window.foodData = foodData;
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
