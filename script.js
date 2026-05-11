@@ -31,9 +31,6 @@
 
     return `
       <button class="food-card" type="button" data-id="${food.id}" style="--card-gradient:${category.gradient}; --badge-gradient:${category.gradient};" aria-pressed="false">
-        <div class="food-card__image-wrap">
-          <img src="images/${food.id}.png" alt="${food.name}" class="food-card__image" loading="lazy" onerror="this.style.display='none'" />
-        </div>
         <div class="food-card__inner">
           <div class="food-card__top">
             <div class="food-card__title-wrap">
